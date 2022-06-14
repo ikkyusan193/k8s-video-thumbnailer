@@ -1,0 +1,89 @@
+TODO:
+
+m1 : docker file, yaml secret
+m2: worker/queue
+
+configMap
+
+redis_host
+minio url
+minio root user
+minio root password
+
+
+
+secrets
+
+Commands:
+
+rq worker --with-scheduler
+
+echo -n 'password'|base64
+cGFzc3dvcmQ=
+
+helm repo add traefik https://helm.traefik.io/traefik
+helm upgrade --install traefik traefik/traefik #(re-deploy)
+
+helm repo update
+helm --install traefik traefik/traefik
+
+kubectl get deployments --all-namespaces
+
+kubectl rollout restart deployment backend
+kubectl rollout restart deployment work-queue
+
+Port fowarding to from pods to local machine:
+kubectl port-foward <pod name> ports XXXX:XXX
+example: kubectl port-forward minio-67795854f6-z6jt4 9090:9090
+
+Running redis:
+kubectl exec -it redis-0 -- redis-cli
+
+{input: xxx, output: xxx, combine:0-1}
+
+connection:
+redis: need to <redis-svc-name>.svc.cluster.local
+
+
+backend = 3queue
+
+
+
+PROGRESS IDEA:
+combine  enqueue with redis
+
+r.set(enquue.id, "status")
+
+only extract/compose worker communicate with minio
+
+
+json.set se
+
+redis set 
+
+
+    # TODO: Figure out what to do with them, how to listen
+    EXTRACT_QUEUE = Queue("EXTRACT", connection=client)
+    COMPOSE_QUEUE = Queue("COMPOSE", connection=client)
+    LOG_QUEUE = Queue("LOG",connection=client)
+
+    # Create a worker to listen on each queue
+    EXTRACT_WORKER = Worker([EXTRACT_QUEUE], connection=client, name='EXTRACT_WORKER')
+    COMPOSE_WORKER = Worker([COMPOSE_QUEUE], connection=client, name='COMPOSE_WORKER')
+    LOG_WORKER = Worker([LOG_QUEUE], connection=client, name='LOG_WORKER')
+
+
+use same image
+env: QUEUE_NAME (EXTRACT, COMPOSE)
+IF ELSE in worker.py
+
+arg of agreeing
+
+Installation
+1. make sure to have npm/node.js installed
+npm install -g @vue/cli
+npm install axios
+vue add vuetify
+
+To run use:
+npm run serve

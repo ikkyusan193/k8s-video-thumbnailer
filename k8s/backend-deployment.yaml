@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/cs-muic/scalable-p2-scalable-t3-ikkyusan193/backend:latest
+        imagePullPolicy: Always
+        env:
+        - name: MINIO-ACCESS-KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: minio-access-key
+        - name: MINIO-SECRET-KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: minio-secret-key
+        - name: MINIO-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: minio-host
+        - name: REDIS-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: redis-host
+        - name: REDIS-PORT
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: redis-port      
+        - name: REDIS-ROOT-PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: redis-root-password
+      imagePullSecrets:
+      - name: dockerconfigjson-secret
