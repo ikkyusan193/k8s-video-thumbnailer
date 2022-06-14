@@ -24,24 +24,24 @@ def extract(id, input, output):
     process.wait()
     LOG.info("Frame extracted")
 
-    MinioHelper.upload_frames(id, input)
+    MinioHelper.upload_frames(id)
     LOG.info("Frames uploaded to Minio")
 
-    RedisHelper.COMPOSE_QUEUE.enqueue(compose, id, input, output)
+    RedisHelper.COMPOSE_QUEUE.enqueue(compose, id, input)
     # TODO: UPDATE status 
     # job = RedisHelper.LOG_QUEUE.enqueue(update_job, "status")
 
 
-def compose(id, input, output):
+def compose(id, input):
 
-    MinioHelper.download_frames(input)
-    LOG.info("Frames %s downloaded", input)
+    MinioHelper.download_frames(id)
+    LOG.info("Frames %s downloaded", id)
 
-    process = subprocess.Popen(f'sh ./scripts/compose.sh {id} {input} {output}', shell=True, stdout=subprocess.PIPE)
+    process = subprocess.Popen(f'sh ./scripts/compose.sh {id} {input}', shell=True, stdout=subprocess.PIPE)
     process.wait()
     LOG.info("Gif Composed")
 
-    MinioHelper.upload_gif(output)
+    MinioHelper.upload_gif(id)
     LOG.info("Gif uploaded to Minio")
 
     # TODO: UPDATE status 

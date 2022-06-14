@@ -55,18 +55,15 @@ class MinioHelper:
             # self.client.fput_object('frames', '/1/sample1.jpg', 'scripts/1/sample1.jpg')
         shutil.rmtree(folder, ignore_errors=True)   
 
-    def download_frames(self, name):
-        name = os.path.splitext(name)[0] # remove file extensions
-        folder = f'{name}/'
-        frames = self.client.list_objects('frames', prefix=folder, recursive= True)
+    def download_frames(self, id):
+        frames = self.client.list_objects('frames', prefix=f'{id}/', recursive= True)
         for frame in frames:
             LOG.info('%s', frame.object_name)
             self.client.fget_object('frames', frame.object_name, os.path.join('./scripts/',frame.object_name))
 
-    def upload_gif(self, name):
-        self.client.fput_object('gifs', name, f'./scripts/gifs/{name}')
-        os.remove(f'./scripts/gifs/{name}')  # remove local gifs
-        # os.remove(f'./script/{os.path.splitext(name)[0]}') # remove local frames folder
+    def upload_gif(self, id):
+        self.client.fput_object('gifs', f'{id}.gif', f'./scripts/gifs/{id}.gif')
+        os.remove(f'./scripts/gifs/{id}.gif')  # remove local gifs
         
     def allGifs(self):
         gifs = self.client.list_objects("gifs", recursive=True)
