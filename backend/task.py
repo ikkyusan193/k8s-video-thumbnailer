@@ -24,7 +24,7 @@ def extract(id, input, output):
     process.wait()
     LOG.info("Frame extracted")
 
-    MinioHelper.upload_frames(id)
+    MinioHelper.upload_frames(id, input)
     LOG.info("Frames uploaded to Minio")
 
     RedisHelper.COMPOSE_QUEUE.enqueue(compose, id, input)
