@@ -7,13 +7,13 @@ CMD mkdir /app
 WORKDIR /app
 
 ## Copy the package specifications
-COPY scalable-ums-frontend/package.json scalable-ums-frontend/yarn.lock ./
+COPY ./frontend/scalable-ums-frontend/package.json ./frontend/scalable-ums-frontend/yarn.lock ./
 
 ## Install all relevant dependencies
 RUN yarn
 
 ## Copy all the relevant files + source code
-COPY scalable-ums-frontend ./
+COPY ./frontend/scalable-ums-frontend ./
 
 ## Carry out the build
 RUN yarn build
