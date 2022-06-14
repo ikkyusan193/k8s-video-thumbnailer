@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: worker-extract
-        image: ghcr.io/cs-muic/scalable-p2-scalable-t3-ikkyusan193/worker:latest
+        image: ghcr.io/ikkyusan193/p2-test/worker:latest
         imagePullPolicy: Always
         env:
         - name: MINIO-ACCESS-KEY
