@@ -7,16 +7,16 @@ CMD mkdir /app
 WORKDIR /app
 
 ## Copy the package specifications
-COPY ./frontend/scalable-ums-frontend/package.json ./frontend/scalable-ums-frontend/yarn.lock ./
+COPY ./frontend/frontend/package.json ./
 
 ## Install all relevant dependencies
-RUN yarn
+RUN npm install
 
 ## Copy all the relevant files + source code
-COPY ./frontend/scalable-ums-frontend ./
+COPY ./frontend/frontend ./
 
 ## Carry out the build
-RUN yarn build
+RUN npm run build
 
 
 ## Second stage, use nginx to serve files that have been built
