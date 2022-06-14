@@ -26,7 +26,7 @@ class RedisHelper:
         self.client = redis.Redis(REDIS_HOST, REDIS_PORT, password=REDIS_PASSWORD)
         self.EXTRACT_QUEUE = Queue("Extract", connection=self.client)
         self.COMPOSE_QUEUE = Queue("Compose", connection=self.client)
-        self.LOG_QUEUE = Queue("Log",connection=self.client)  
+        self.LOG_QUEUE = Queue("Log",connection=self.client)
 
 # MINIO
 class MinioHelper:
@@ -46,12 +46,12 @@ class MinioHelper:
     def download_video(self, name):
         self.client.fget_object('videos', name, f'./scripts/{name}')     
     
-    def upload_frames(self, name):
+    def upload_frames(self, id, name):
         name = os.path.splitext(name)[0] # remove file extensions
-        folder = f'./scripts/{name}/'
+        folder = f'./scripts/{id}/'
         files = [f for f in os.listdir(folder)]
         for file in files:
-            self.client.fput_object('frames', os.path.join(name,file) , os.path.join(folder,file))
+            self.client.fput_object('frames', os.path.join(id,file) , os.path.join(folder,file))
             # self.client.fput_object('frames', '/sample/sample1.jpg', 'scripts/sample/sample1.jpg')
         shutil.rmtree(folder, ignore_errors=True)   
 

@@ -17,19 +17,23 @@ LOG.basicConfig(
 RedisHelper = interface.RedisHelper()
 MinioHelper = interface.MinioHelper()
 
+RedisHelper.client.set("job_count", 0) # JOB ID
+
 app = Flask(__name__)
 
 @app.route('/api/submit', methods=['POST'])
 def submit_job():
+    RedisHelper.client.incr("job_count", 1)
+    id = RedisHelper.client.get("job_count")
     task = json.loads(json.dumps(request.json))
     input = task.get('input')
     output = task.get('output')
-    job = RedisHelper.EXTRACT_QUEUE.enqueue(extract, input, output)
-    return jsonify({'status': 'OK', 'id': job.id})
+    RedisHelper.EXTRACT_QUEUE.enqueue(extract, id, input, output)
+    return jsonify({'status': 'OK', 'id': id})
 
 @app.route('/api/bucket/', methods=["POST"])
 # TODO: API that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
-def submit_bucket(name):
+def submit_bucket():
     task = json.loads(json.dumps(request.json))
     bucket_name = task.get('bucket')
     videos = MinioHelper.client.list_objects(bucket_name, recursive=True)

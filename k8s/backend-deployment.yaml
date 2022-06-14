@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: https://ghcr.io/ikkyusan193/p2-test/backend:latest
+        image: ghcr.io/ikkyusan193/p2-test/backend:latest
         imagePullPolicy: Always
         env:
         - name: MINIO-ACCESS-KEY
