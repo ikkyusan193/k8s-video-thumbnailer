@@ -24,7 +24,7 @@ app = Flask(__name__)
 @app.route('/api/submit', methods=['POST'])
 def submit_job():
     RedisHelper.client.incr("job_count", 1)
-    id = RedisHelper.client.get("job_count")
+    id = RedisHelper.client.get("job_count").decode("utf-8")
     task = json.loads(json.dumps(request.json))
     input = task.get('input')
     output = task.get('output')

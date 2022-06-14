@@ -52,7 +52,7 @@ class MinioHelper:
         files = [f for f in os.listdir(folder)]
         for file in files:
             self.client.fput_object('frames', os.path.join(id,file) , os.path.join(folder,file))
-            # self.client.fput_object('frames', '/sample/sample1.jpg', 'scripts/sample/sample1.jpg')
+            # self.client.fput_object('frames', '/1/sample1.jpg', 'scripts/1/sample1.jpg')
         shutil.rmtree(folder, ignore_errors=True)   
 
     def download_frames(self, name):
