@@ -1,5 +1,6 @@
 <template>
-  <!-- <v-row>
+  <v-row>
+      <h6>{{info}}</h6>
     <v-col
       v-for="n in 12"
       :key="n"
@@ -25,8 +26,7 @@
         </template>
       
     </v-col>
-  </v-row> -->
-  <h6>{{info}}</h6>
+  </v-row>
 </template>
 
     <!-- <v-col>
@@ -41,7 +41,7 @@
 </template> -->
 
 <script>
-// import Vue from "vue";
+import Vue from "vue";
 
 export default {
   name: "Home",
@@ -61,9 +61,9 @@ export default {
   },
 
   mounted() {
-    this.$axios
-      .get('/api/gifs')
-      .then(response => (this.info = response.data.data))
+    Vue.axios
+      .get('/backend/all')
+      .then(response => (this.info = response.data))
       console.log(this.info)
   }
 };
