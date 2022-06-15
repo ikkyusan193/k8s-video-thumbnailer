@@ -14,7 +14,6 @@ RUN npm install
 
 ## Copy all the relevant files + source code
 COPY ./frontend ./
-COPY . ./
 ## Carry out the build
 RUN npm run build
 
@@ -24,17 +23,14 @@ RUN npm run build
 FROM nginx:alpine
 
 ## Copy config
-#COPY ./app/nginx.conf /etc/nginx/nginx.conf
-#COPY ./app/.nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./app/nginx.conf /etc/nginx/nginx.conf
+
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=builder /app/dist /usr/share/nginx/html/
-COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 
+COPY --from=builder /app/dist /usr/share/nginx/html/
 EXPOSE 8080 80
-        
 CMD ["nginx","-g","daemon off;"]
 
 
