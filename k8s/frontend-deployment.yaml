@@ -19,6 +19,7 @@ spec:
     spec:
       containers:
       - image: ghcr.io/ikkyusan193/p2-test/frontend:latest
+        imagePullPolicy: Always
         name: frontend
         env:
         ports:
@@ -28,3 +29,5 @@ spec:
           httpGet:
             path: /
             port: 8080
+      imagePullSecrets:
+        - name: dockerconfigjson-secret          
