@@ -12,14 +12,11 @@ COPY ./frontend ./
 
 RUN npm run build
 
-
 # Second stage, use nginx to serve files that have been built
 # alpine is a small footprint linux image
 FROM nginx:alpine
 
-COPY --from=builder /app/default.conf /etc/nginx/conf.d/default.conf
-#COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
-RUN rm -rf /usr/share/nginx/html/*
+COPY  ./frontend/default.conf /etc/nginx/conf.d
 COPY --from=builder /app/dist /usr/share/nginx/html/
 
 EXPOSE 8080 80
