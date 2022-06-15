@@ -22,7 +22,7 @@ RedisHelper.client.set("job_count", 0) # JOB ID
 
 app = Flask(__name__)
 
-@app.route('/api/submit', methods=['POST'])
+@app.route('/backend/submit', methods=['POST'])
 def submit_job():
     RedisHelper.client.incr("job_count", 1)
     id = RedisHelper.client.get("job_count").decode("utf-8")
@@ -33,8 +33,8 @@ def submit_job():
     RedisHelper.LOG_QUEUE.enqueue(initialize_job, id, input) # Create job status in REDIS
     return jsonify({'status': 'OK', 'id': id})
 
-@app.route('/api/bucket/', methods=["POST"])
-# API that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
+@app.route('/backend/bucket/', methods=["POST"])
+# backend that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
 # TODO: JOB STATUS, ID
 def submit_bucket():
     task = json.loads(json.dumps(request.json))
@@ -47,7 +47,7 @@ def submit_bucket():
     return jsonify({'status': 'OK'})
 
 
-@app.route('/api/all', methods=["GET"])
+@app.route('/backend/all', methods=["GET"])
 def all_gifs():
     urls = {}
     gifs = MinioHelper.client.list_objects("gifs", recursive=True)
@@ -55,7 +55,7 @@ def all_gifs():
         urls[gif.object_name] = MinioHelper.client.get_presigned_url("GET","gifs", gif.object_name)
     return jsonify(urls), 200
 
-@app.route('/api/gifs', methods=["GET"])
+@app.route('/backend/gifs', methods=["GET"])
 def gifs():
     urls = {}
     gifs = MinioHelper.client.list_objects("gifs", recursive=True)
@@ -64,12 +64,12 @@ def gifs():
         urls[gif.object_name] = base64.b64encode(item).decode("utf8")
     return jsonify(urls), 200
 
-@app.route('/api/videos', methods=["GET"])
+@app.route('/backend/videos', methods=["GET"])
 def vids():
     vids = [vid.object_name for vid in MinioHelper.client.list_objects("videos", recursive=True)]
     return jsonify({'data': vids}), 200    
 
-@app.route('/api/jobs', methods=['GET'])
+@app.route('/backend/jobs', methods=['GET'])
 def all_jobs():
     jobs = {}
     job_count = int(RedisHelper.client.get("job_count").decode("utf-8"))
@@ -77,7 +77,7 @@ def all_jobs():
         jobs[i] = RedisHelper.get_status(i)
     return jsonify(jobs), 200    
 
-@app.route('/api/progress/', methods=["GET"])
+@app.route('/backend/progress/', methods=["GET"])
 def progress(id):
     task = json.loads(json.dumps(request.json))
     id = task.get('id')
