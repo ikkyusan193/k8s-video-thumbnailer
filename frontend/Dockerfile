@@ -15,16 +15,22 @@ RUN npm install
 ## Copy all the relevant files + source code
 COPY ./frontend ./
 
-EXPOSE 8080
-
 ## Carry out the build
 RUN npm run build
 
 
 # Second stage, use nginx to serve files that have been built
 # alpine is a small footprint linux image
-FROM nginx:1.21
+FROM nginx:alpine
+
+## Copy config
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY --from=builder /app/dist /usr/share/nginx/html/
+
+EXPOSE 8080 80
         
 CMD ["nginx","-g","daemon off;"]
 
