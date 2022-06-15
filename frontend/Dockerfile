@@ -25,12 +25,13 @@ FROM nginx:alpine
 
 ## Copy config
 #COPY ./app/nginx.conf /etc/nginx/nginx.conf
-COPY ./app/.nginx/nginx.conf /etc/nginx/nginx.conf
-#COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY ./app/.nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /app/dist /usr/share/nginx/html/
+COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080 80
         
