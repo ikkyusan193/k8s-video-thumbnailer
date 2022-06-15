@@ -1,7 +1,7 @@
 FROM node:16 as builder
 ## Stage 1: Build the frontend
 
-CMD mkdir /app
+# CMD mkdir /app
 
 ## Set the working directory
 WORKDIR /app
