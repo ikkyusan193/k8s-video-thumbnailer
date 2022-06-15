@@ -61,7 +61,7 @@ def gifs():
     gifs = MinioHelper.client.list_objects("gifs", recursive=True)
     for gif in gifs:
         item = MinioHelper.client.get_object("gifs", gif.object_name)
-        urls[gif.object_name] = str(base64.b64decode(item))
+        urls[gif.object_name] = base64.b64encode(str(item).encode('ascii'))
     return jsonify(urls), 200
 
 @app.route('/api/jobs', methods=['GET'])
