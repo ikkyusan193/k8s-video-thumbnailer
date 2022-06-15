@@ -8,16 +8,14 @@
           {{ appTitle }}
         </router-link>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn
+      <v-row  align="center" justify="center">
+        <v-btn outlined tile
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
-          <v-icon left purple>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
-      </v-toolbar-items>
+        </v-row>
     </v-app-bar>
 
     

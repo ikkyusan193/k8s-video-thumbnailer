@@ -54,8 +54,7 @@ def all_gifs():
     for gif in gifs:
         url = str(MinioHelper.client.get_presigned_url("GET","gifs", gif.object_name))
         key = url.split('?')[-1]
-        urls.append({'name': gif.object_name, 'link' :f'http://localhost/minio/gifs/{gif.object_name}?{key}'})
-    # urls.sort(key=lambda x: x[1])    
+        urls.append({'name': gif.object_name, 'link' :f'http://localhost/minio/gifs/{gif.object_name}?{key}'})   
     return jsonify(urls), 200
 
 @app.route('/backend/gifs', methods=["GET"])
@@ -69,15 +68,15 @@ def gifs():
 
 @app.route('/backend/videos', methods=["GET"])
 def vids():
-    vids = [vid.object_name for vid in MinioHelper.client.list_objects("videos", recursive=True)]
-    return jsonify({'data': vids}), 200    
+    vids = [{'name': vid.object_name for vid in MinioHelper.client.list_objects("videos", recursive=True)}]
+    return jsonify(vids), 200    
 
 @app.route('/backend/jobs', methods=['GET'])
 def all_jobs():
-    jobs = {}
+    jobs = []
     job_count = int(RedisHelper.client.get("job_count").decode("utf-8"))
     for i in range(1,job_count+1):
-        jobs[i] = RedisHelper.get_status(i)
+        jobs.append(RedisHelper.get_status(i))
     return jsonify(jobs), 200    
 
 @app.route('/backend/progress/', methods=["GET"])

@@ -1,52 +1,66 @@
+
+
 <template>
-  <v-row>
-      <h6>{{info}}</h6>
-    <v-col
-      v-for="item in info"
-      :key="item.name"
-      class="d-flex child-flex"
-      cols= 3
-    >
-     <v-card flat tile>
-      <v-img
-        :src="item.link"
-        aspect-ratio="2.5"
-        class="grey lighten-2"
-      >
-      </v-img>
-        <span align-items:center >{{item.name}}</span>
-              </v-card>
-        <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            justify="center"
-          >
-          </v-row>
-        </template>
-      
-    </v-col>
+<v-row>
+  <v-col justify="justify-start">
+    <v-col>
+    <h1>Controllers</h1>
+   <v-row align="center">
+    <v-btn text color="green"> <!-- todo -->
+      Submit all
+    </v-btn>
+    <v-btn text color="primary"> <!-- additional features -->
+      Add video
+    </v-btn>
+    <v-btn text color="error">  
+      Delete video
+    </v-btn>
   </v-row>
+   </v-col>
+     <v-card class="pa-2" tile>
+    <v-list dense>
+          <v-list-item-title class="text-h6" justify="center">
+          Video List
+        </v-list-item-title>
+      <v-list-item-group
+        v-model="selectedItem"
+        color="primary"
+      >
+        <v-list-item
+          v-for="(item, i) in videos"
+          :key="i"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="item.name"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
+  </v-col>
+
+  <v-col>
+    <h1>Status</h1>
+
+  </v-col>
+</v-row>
+
+
+
+  
 </template>
 
-    <!-- <v-col>
-        <v-btn text>
-      Normal
-    </v-btn>
-        <v-btn text>
-      Normal
-    </v-btn>
-  </v-col>
-  </v-row>
-</template> -->
-
 <script>
-import Vue from "vue";
+import Vue from 'vue';
+
+
 
 export default {
   name: "Home",
   data() {
     return {
-      info: []
+      selectedItem: 1,
+      videos: []
     };
   },
 
@@ -61,9 +75,8 @@ export default {
 
   mounted() {
     Vue.axios
-      .get('/backend/all')
-      .then(response => (this.info = response.data))
-      console.log(this.info)
+    .get("/backend/videos")
+    .then(response => (this.videos = response.data))
   }
 };
 </script>
