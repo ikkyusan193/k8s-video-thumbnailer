@@ -22,7 +22,7 @@ RUN npm run build
 ## Second stage, use nginx to serve files that have been built
 ## alpine is a small footprint linux image
 FROM nginx:1.21-alpine   
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY ./frontend/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html/
 
 EXPOSE 8080
