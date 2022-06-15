@@ -1,7 +1,6 @@
 import os
 import logging
 import subprocess
-from redis.commands.json.path import Path
 import interface
 
 LOG = logging

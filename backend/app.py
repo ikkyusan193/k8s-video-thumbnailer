@@ -58,8 +58,8 @@ def all_gifs():
 def all_jobs():
     jobs = {}
     job_count = int(RedisHelper.client.get("job_count").decode("utf-8"))
-    for i in range(job_count):
-        jobs[i] = RedisHelper.client.json().get(i)
+    for i in range(1,job_count+1):
+        jobs[i] = RedisHelper.get_status(i)
     return jsonify(jobs), 200    
 
 @app.route('/api/progress/', methods=["GET"])

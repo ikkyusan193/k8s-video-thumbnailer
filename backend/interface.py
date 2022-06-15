@@ -4,7 +4,6 @@ import os
 import logging
 import json
 import redis
-from redis.commands.json.path import Path
 from minio import Minio
 from minio.error import S3Error
 from rq import Queue
@@ -30,14 +29,14 @@ class RedisHelper:
         self.LOG_QUEUE = Queue("Log",connection=self.client) 
 
     def update_status(self, id, status):
-        self.client.json().set(id, Path('status'), status)
+        self.client.hset(id, 'status', status)
 
     def create_status(self, id, name):
         status = {'id': id,'video': name, 'status': "Job received"}
-        self.client.json().set(id, Path.root_path(), status)
+        self.client.hmset(id, status)
 
     def get_status(self, id):
-        return self.client.json().get(id)           
+        return self.client.hmget(id)          
 
 # MINIO
 class MinioHelper:
