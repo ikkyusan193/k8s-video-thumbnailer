@@ -19,8 +19,8 @@ FROM nginx:alpine
 COPY  ./frontend/default.conf /etc/nginx/conf.d
 COPY --from=builder /app/dist /usr/share/nginx/html/
 
-EXPOSE 8080 80
-CMD ["nginx","-g","daemon off;"]
+# EXPOSE 8080 80
+# CMD ["nginx","-g","daemon off;"]
 
 
 
