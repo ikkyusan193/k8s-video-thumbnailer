@@ -68,7 +68,7 @@ def gifs():
 
 @app.route('/backend/videos', methods=["GET"])
 def vids():
-    vids = [{'name': vid.object_name for vid in MinioHelper.client.list_objects("videos", recursive=True)}]
+    vids = [{'name': vid.object_name} for vid in MinioHelper.client.list_objects("videos", recursive=True)]
     return jsonify(vids), 200    
 
 @app.route('/backend/jobs', methods=['GET'])

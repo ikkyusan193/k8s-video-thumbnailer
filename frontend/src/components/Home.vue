@@ -41,6 +41,25 @@
 
   <v-col>
     <h1>Status</h1>
+    <v-btn text color="primary"> <!-- additional features -->
+      Reload
+    </v-btn>
+    <v-card class="pa-2" tile>
+    <v-list three-line>
+      <v-list-item-title class="text-h6" justify="center">
+          Logs
+        </v-list-item-title>
+        <v-list-item 
+          v-for="(item, i) in logs"
+          :key="i"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-html="item.id"></v-list-item-title>
+            <v-list-item-subtitle v-html="item.status"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+    </v-list>
+  </v-card>
 
   </v-col>
 </v-row>
@@ -60,7 +79,8 @@ export default {
   data() {
     return {
       selectedItem: 1,
-      videos: []
+      videos: [],
+      logs: []
     };
   },
 
@@ -77,6 +97,10 @@ export default {
     Vue.axios
     .get("/backend/videos")
     .then(response => (this.videos = response.data))
+
+    Vue.axios
+    .get("/backend/jobs")
+    .then(response => (this.logs = response.data))
   }
 };
 </script>
