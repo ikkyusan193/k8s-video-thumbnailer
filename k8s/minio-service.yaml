@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: minio
-  name: minio-service # This name uniquely identifies the service
+  name: minio # This name uniquely identifies the service
   namespace: default  
 spec:
   selector:

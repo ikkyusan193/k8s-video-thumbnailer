@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: my-config
 data:
-  minio-host: minio-service.default.svc.cluster.local:9000
-  redis-host: my-redis-svc.default.svc.cluster.local
+  minio-host: minio.default.svc.cluster.local:9000
+  redis-host: redis.default.svc.cluster.local
   redis-port: '6379'

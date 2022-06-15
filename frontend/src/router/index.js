@@ -3,22 +3,33 @@ import VueRouter from "vue-router";
 import axios from "axios";
 import VueAxios from "vue-axios";
 // import all pages here
+import Home from "../components/Home";
+import Display from "../components/Display";
 
 Vue.use(VueAxios, axios);
+
+// import { search } from "core-js/fn/symbol";
+
+// Protocol to avoid redirection duplication
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err);
+};
+
 Vue.use(VueRouter);
 
-
-const routerOptions = [
-  { path: "/", component: "Home" },
-  { path: "/display", component: "Display"},
+const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/display",
+    name: "Display",
+    component: Display,
+  },
 ];
-
-const routes = routerOptions.map(route => {
-  return {
-    ...route,
-    component: () => import(`../components/${route.component}.vue`)
-  };
-});
 
 const router = new VueRouter({ mode: "history", routes: routes });
 

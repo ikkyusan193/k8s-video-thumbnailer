@@ -20,17 +20,18 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <h6>{{info}}</h6>
+    
     <v-main>
+
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
+
 <script>
 // import Vue from "vue";
 // import router from "./router";
-const axios = require('axios').default;
 
 export default {
   name: "App",
@@ -53,9 +54,7 @@ export default {
   },
 
   mounted () {
-    axios
-      .get('/api/videos')
-      .then(response => (this.info = response.data))
+
   },
 };
 </script>

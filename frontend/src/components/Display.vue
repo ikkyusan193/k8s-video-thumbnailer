@@ -1,5 +1,5 @@
 <template>
-  <p>{{info}}</p>
+  <h1>YOYOYOYOYOO</h1>
 </template>
 
 <script>

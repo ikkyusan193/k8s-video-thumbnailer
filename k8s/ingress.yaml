@@ -8,7 +8,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: '/api/'
+      - path: '/api'
         pathType: Prefix
         backend:
           service:
@@ -21,5 +21,12 @@ spec:
           service:
             name: frontend
             port:
-              number: 80       
+              number: 80
+      - path: '/minio'
+        pathType: Prefix
+        backend:
+          service:
+            name: minio
+            port:
+              number: 80         
       

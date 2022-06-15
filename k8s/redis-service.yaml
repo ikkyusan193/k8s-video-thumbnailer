@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: redis
-  name: my-redis-svc
+  name: redis
   namespace: default
 spec:
   selector:
