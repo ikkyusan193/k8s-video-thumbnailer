@@ -1,33 +1,24 @@
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
   labels:
     app: frontend
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
-      tier: frontend
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: frontend
-        tier: frontend
     spec:
       containers:
-      - image: ghcr.io/ikkyusan193/p2-test/frontend:latest
-        imagePullPolicy: Always
-        name: frontend
-        env:
-        ports:
-        - containerPort: 8080
-          name: frontend
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
+      - name: frontend 
+        image: ghcr.io/ikkyusan193/p2-test/frontend:latest
       imagePullSecrets:
         - name: dockerconfigjson-secret          
+
+
+        

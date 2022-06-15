@@ -5,19 +5,21 @@ CMD mkdir /app
 WORKDIR /app
 
 COPY ./frontend/package.json ./
+COPY ./frontend/package*.json ./
+COPY ./frontend/yarn.lock ./
 
-RUN npm install
+RUN yarn install
 
 COPY ./frontend ./
 
-RUN npm run build
+RUN yarn build
 
 # Second stage, use nginx to serve files that have been built
 # alpine is a small footprint linux image
 FROM nginx:alpine
 
-COPY  ./frontend/default.conf /etc/nginx/conf.d
 COPY --from=builder /app/dist /usr/share/nginx/html/
+COPY  ./frontend/default.conf /etc/nginx/conf.d
 
 # EXPOSE 8080 80
 # CMD ["nginx","-g","daemon off;"]

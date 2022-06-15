@@ -1,0 +1,62 @@
+/* can be taken out if we dont want to use embedded fonts */
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;600&display=swap");
+
+h1.one {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 25px;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 800;
+}
+
+h1.two {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 12px;
+  color: grey;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 600;
+}
+
+h1.three {
+  margin-left: 15px;
+  margin-right: 10px;
+  font-size: 10px;
+  color: rgb(175, 175, 175);
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 600;
+  border-collapse: collapse;
+}
+
+p.one {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 8px;
+  font-size: 15px;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 300;
+}
+
+p.two {
+  margin: 10px;
+  font-size: 15px;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 300;
+}
+
+.three {
+  font-size: 11px;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: bold;
+}
+
+.four {
+  font-size: 15px;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: normal;
+}
+
+span.smaller {
+  font-size: 75%;
+  font-weight: normal;
+}

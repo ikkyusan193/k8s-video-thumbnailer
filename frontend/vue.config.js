@@ -5,7 +5,6 @@ module.exports = defineConfig({
   ],
   devServer: {
     host: "localhost", // frontend hostname or ip
-    disableHostCheck: true,
     port: 8000, // frontend port
     https: false, // no ssl
     proxy: {
