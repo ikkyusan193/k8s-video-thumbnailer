@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-log
+  labels:
+    app: worker-log
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-log
+  template:
+    metadata:
+      labels:
+        app: worker-log
+    spec:
+      containers:
+      - name: worker-log
+        image: ghcr.io/ikkyusan193/p2-test/worker:latest
+        imagePullPolicy: Always
+        env:
+        - name: MINIO-ACCESS-KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: minio-access-key
+        - name: MINIO-SECRET-KEY
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: minio-secret-key
+        - name: MINIO-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: minio-host
+        - name: REDIS-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: redis-host
+        - name: REDIS-PORT
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: redis-port             
+        - name: REDIS-ROOT-PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: redis-root-password
+        - name: LISTEN-QUEUE
+          value: Log
+      imagePullSecrets:
+      - name: dockerconfigjson-secret

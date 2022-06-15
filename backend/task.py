@@ -1,7 +1,7 @@
 import os
 import logging
 import subprocess
-
+from redis.commands.json.path import Path
 import interface
 
 LOG = logging
@@ -16,38 +16,45 @@ MinioHelper = interface.MinioHelper()
 # CURRENT DIRECTORY == ./APP
 def extract(id, input, output):
     LOG.info("Task received:%s %s", id, input, output)
-
+    
     MinioHelper.download_video(input)
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Video downloaded")
     LOG.info("Video %s downloaded", input)
 
     process = subprocess.Popen(f'sh ./scripts/extract.sh {id} {input}', shell=True, stdout=subprocess.PIPE)
     process.wait()
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Frames Extracted")
     LOG.info("Frame extracted")
 
     MinioHelper.upload_frames(id, input)
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Frames uploaded to Minio")
     LOG.info("Frames uploaded to Minio")
 
     RedisHelper.COMPOSE_QUEUE.enqueue(compose, id, input)
-    # TODO: UPDATE status 
-    # job = RedisHelper.LOG_QUEUE.enqueue(update_job, "status")
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Frames send to compose")
 
 
 def compose(id, input):
 
     MinioHelper.download_frames(id)
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Frames downloaded")
     LOG.info("Frames %s downloaded", id)
 
     process = subprocess.Popen(f'sh ./scripts/compose.sh {id} {input}', shell=True, stdout=subprocess.PIPE)
     process.wait()
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Gif composed")
     LOG.info("Gif Composed")
 
     MinioHelper.upload_gif(id)
+    RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Gif uploaded to Minio")
     LOG.info("Gif uploaded to Minio")
 
-    # TODO: UPDATE status 
-    # job = RedisHelper.LOG_QUEUE.enqueue(update_job, "status")
 
-def update_job(jobID, status):
-    print("yoyoyo")
+def update_job(id, status):
+    RedisHelper.update_status(id,status)
+
+def initialize_job(id, name):
+    RedisHelper.create_status(id, name)
+
 
 # 

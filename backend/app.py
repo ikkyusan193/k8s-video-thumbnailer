@@ -3,6 +3,7 @@ import os
 import logging
 import json
 from flask import Flask, jsonify, request
+from backend.task import initialize_job, update_job
 
 # Imports Interface & Worker functions 
 import interface
@@ -28,11 +29,13 @@ def submit_job():
     task = json.loads(json.dumps(request.json))
     input = task.get('input')
     output = task.get('output')
-    RedisHelper.EXTRACT_QUEUE.enqueue(extract, id, input, output)
+    RedisHelper.EXTRACT_QUEUE.enqueue(extract, id, input, output) # Send extract job
+    RedisHelper.LOG_QUEUE.enqueue(initialize_job, id, input) # Create job status in REDIS
     return jsonify({'status': 'OK', 'id': id})
 
 @app.route('/api/bucket/', methods=["POST"])
-# TODO: API that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
+# API that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
+# TODO: JOB STATUS, ID
 def submit_bucket():
     task = json.loads(json.dumps(request.json))
     bucket_name = task.get('bucket')
@@ -50,8 +53,16 @@ def all_gifs():
     gifs = MinioHelper.client.list_objects("gifs", recursive=True)
     for gif in gifs:
         urls[gif.object_name] = MinioHelper.client.get_presigned_url("GET","gifs", gif.object_name)
-    return jsonify(urls)
-    
+    return jsonify(urls), 200
+
+@app.route('/api/jobs', methods=['GET'])
+def all_jobs():
+    jobs = {}
+    job_count = int(RedisHelper.client.get("job_count").decode("utf-8"))
+    for i in range(job_count):
+        jobs[i] = RedisHelper.client.json().get(i)
+    return jsonify(jobs), 200    
+
 @app.route('/api/progress/', methods=["GET"])
 def progress(id):
     task = json.loads(json.dumps(request.json))
