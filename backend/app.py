@@ -54,7 +54,8 @@ def all_gifs():
     for gif in gifs:
         url = str(MinioHelper.client.get_presigned_url("GET","gifs", gif.object_name))
         key = url.split('?')[-1]
-        urls.append({f'{gif.object_name}':f'http://localhost/minio/gifs/{gif.object_name}?{key}'})
+        urls.append({'name': gif.object_name, 'link' :f'http://localhost/minio/gifs/{gif.object_name}?{key}'})
+    urls.sort(key=lambda x: x.name)    
     return jsonify(urls), 200
 
 @app.route('/backend/gifs', methods=["GET"])

@@ -2,20 +2,19 @@
   <v-row>
       <h6>{{info}}</h6>
     <v-col
-      v-for="n in 12"
-      :key="n"
+      v-for="item in info"
+      :key="item.name"
       class="d-flex child-flex"
-      cols="4"
+      cols= 3
     >
      <v-card flat tile>
       <v-img
-        :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-        :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+        :src="item.link"
         aspect-ratio="2.5"
         class="grey lighten-2"
       >
       </v-img>
-        <span align-items:center ></span>
+        <span align-items:center >{{item.name}}</span>
               </v-card>
         <template v-slot:placeholder>
           <v-row
@@ -47,7 +46,7 @@ export default {
   name: "Home",
   data() {
     return {
-      info: {}
+      info: []
     };
   },
 
