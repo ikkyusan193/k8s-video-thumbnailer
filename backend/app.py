@@ -64,6 +64,11 @@ def gifs():
         urls[gif.object_name] = base64.b64encode(item).decode("utf8")
     return jsonify(urls), 200
 
+@app.route('/api/videos', methods=["GET"])
+def vids():
+    vids = [vid.object_name for vid in MinioHelper.client.list_objects("videos", recursive=True)]
+    return jsonify({'data': vids}), 200    
+
 @app.route('/api/jobs', methods=['GET'])
 def all_jobs():
     jobs = {}
