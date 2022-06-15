@@ -1,28 +1,5 @@
 <template>
-  <v-row
-    align="center"
-    justify="justify-space-between"
-  >
-  <v-row>
-            <v-btn text>
-      Normal
-    </v-btn>
-            <v-btn text>
-      Normal
-    </v-btn>
-  </v-row>
-
-
-
-    <v-col>
-        <v-btn text>
-      Normal
-    </v-btn>
-        <v-btn text>
-      Normal
-    </v-btn>
-  </v-col>
-  </v-row>
+  <p>{{info}}</p>
 </template>
 
 <script>
@@ -32,7 +9,8 @@ export default {
   name: "Display",
   data() {
     return {
-    };
+      info: null,
+    }
   },
 
   created() {

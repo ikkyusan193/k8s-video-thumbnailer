@@ -1,19 +1,6 @@
 <template>
   
   <v-app>
-    <v-navigation-drawer v-model="sidebar" app>
-      <v-list>
-        <v-list-tile
-          v-for="item in menuItems"
-          :key="item.title"
-          :to="item.path">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>{{ item.title }}</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
 
     <v-app-bar color="deep-purple" dark app >
       <v-toolbar-title>
@@ -24,7 +11,6 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn
-          flat
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
@@ -34,15 +20,17 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-content>
+    <h6>{{info}}</h6>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
 <script>
 // import Vue from "vue";
 // import router from "./router";
+const axios = require('axios').default;
 
 export default {
   name: "App",
@@ -57,13 +45,17 @@ export default {
      ],
     searchInput: "",
     scrolled: false,
+    info: {}
   }),
 
   created() {
     
   },
 
-  methods: {
+  mounted () {
+    axios
+      .get('/api/videos')
+      .then(response => (this.info = response.data))
   },
 };
 </script>

@@ -14,7 +14,7 @@
         class="grey lighten-2"
       >
       </v-img>
-        <span align-items:center >TODO.MP4</span>
+        <span align-items:center ></span>
               </v-card>
         <template v-slot:placeholder>
           <v-row
@@ -27,6 +27,17 @@
     </v-col>
   </v-row>
 </template>
+
+    <!-- <v-col>
+        <v-btn text>
+      Normal
+    </v-btn>
+        <v-btn text>
+      Normal
+    </v-btn>
+  </v-col>
+  </v-row>
+</template> -->
 
 <script>
 // import Vue from "vue";
