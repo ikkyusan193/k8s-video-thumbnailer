@@ -3,11 +3,10 @@ import os
 import logging
 import json
 from flask import Flask, jsonify, request
-from backend.task import initialize_job, update_job
 
 # Imports Interface & Worker functions 
 import interface
-from task import extract
+from task import extract, initialize_job
 
 LOG = logging
 LOG.basicConfig(
