@@ -1,20 +1,15 @@
-FROM node:16 as builder
+FROM node:16-alpine as builder
 ## Stage 1: Build the frontend
 
 CMD mkdir /app
-
-## Set the working directory
 WORKDIR /app
 
-## Copy the package specifications
 COPY ./frontend/package.json ./
 
-## Install all relevant dependencies
 RUN npm install
 
-## Copy all the relevant files + source code
 COPY ./frontend ./
-## Carry out the build
+
 RUN npm run build
 
 
@@ -22,14 +17,11 @@ RUN npm run build
 # alpine is a small footprint linux image
 FROM nginx:alpine
 
-## Copy config
-COPY ./default.conf /etc/nginx/nginx.conf
-
-## Remove default nginx index page
+COPY --from=builder /app/default.conf /etc/nginx/conf.d/default.conf
+#COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
 RUN rm -rf /usr/share/nginx/html/*
-
-
 COPY --from=builder /app/dist /usr/share/nginx/html/
+
 EXPOSE 8080 80
 CMD ["nginx","-g","daemon off;"]
 

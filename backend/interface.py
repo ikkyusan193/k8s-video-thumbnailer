@@ -37,7 +37,7 @@ class RedisHelper:
 
     def get_status(self, id):
         response = self.client.hmget(id, "id", "video", "status")  
-        return {'id': response[0], 'video': response[1], 'status': response[2]} 
+        return {'id': response[0].decode("utf-8"), 'video': response[1].decode("utf-8"), 'status': response[2].decode("utf-8")} 
 
 # MINIO
 class MinioHelper:
