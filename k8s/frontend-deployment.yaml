@@ -18,7 +18,4 @@ spec:
       - name: frontend 
         image: ghcr.io/ikkyusan193/p2-test/frontend:latest
       imagePullSecrets:
-        - name: dockerconfigjson-secret          
-
-
-        
+        - name: dockerconfigjson-secret
