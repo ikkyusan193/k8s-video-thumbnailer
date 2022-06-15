@@ -2,12 +2,12 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
     host: "localhost",
-    disableHostCheck: true,
-    port: 9000,
+    port: 8080,
     https: false,
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:5000",
+        target: "http://0.0.0.0.0:5000",
+        // target: "localhost"
       },
     },
   },

@@ -3,6 +3,7 @@ import os
 import logging
 import json
 from flask import Flask, jsonify, request
+import base64
 
 # Imports Interface & Worker functions 
 import interface
@@ -52,6 +53,15 @@ def all_gifs():
     gifs = MinioHelper.client.list_objects("gifs", recursive=True)
     for gif in gifs:
         urls[gif.object_name] = MinioHelper.client.get_presigned_url("GET","gifs", gif.object_name)
+    return jsonify(urls), 200
+
+@app.route('/api/gifs', methods=["GET"])
+def gifs():
+    urls = {}
+    gifs = MinioHelper.client.list_objects("gifs", recursive=True)
+    for gif in gifs:
+        item = MinioHelper.client.get_object("gifs", gif.object_name)
+        urls[gif.object_name] = base64.b64decode(item)
     return jsonify(urls), 200
 
 @app.route('/api/jobs', methods=['GET'])
