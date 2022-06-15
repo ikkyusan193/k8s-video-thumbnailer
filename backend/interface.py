@@ -36,7 +36,8 @@ class RedisHelper:
         self.client.hmset(id, status)
 
     def get_status(self, id):
-        return self.client.hmget(id)          
+        response = self.client.hmget(id, "id", "video", "status")  
+        return {'id': response[0], 'video': response[1], 'status': response[2]} 
 
 # MINIO
 class MinioHelper:
