@@ -94,12 +94,12 @@ export default {
   methods: {
     submit(index){
       const data = { "input" : this.videos[index].name};
-      Vue.axios.post("/backend/submit", data)
+      Vue.axios.post("/backend/submit", data).catch(error => console.log(error))
     },
 
     submit_all(){
       const data = { "bucket" : 'videos'};
-      Vue.axios.post("/backend/submit-bucket",data)
+      Vue.axios.post("/backend/submit-bucket",data).catch(error => console.log(error))
     }
 
   },
