@@ -13,8 +13,8 @@ RedisHelper = interface.RedisHelper()
 MinioHelper = interface.MinioHelper()
 
 # CURRENT DIRECTORY == ./APP
-def extract(id, input, output):
-    LOG.info("Task received:%s %s %s", id, input, output)
+def extract(id, input):
+    LOG.info("Task received:%s %s %s", id, input)
     
     MinioHelper.download_video(input)
     RedisHelper.LOG_QUEUE.enqueue(update_job, id, "Video downloaded")
