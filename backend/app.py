@@ -45,7 +45,7 @@ def submit_bucket():
         RedisHelper.EXTRACT_QUEUE.enqueue(extract, id, input)
     return jsonify({'status': 'OK'})
 
-@app.route('/backend/delete-bucket', methods=["DELETE"])
+@app.route('/backend/delete-bucket', methods=["POST"])
 def delete_bucket():
     task = json.loads(json.dumps(request.json))
     bucket_name = task.get('bucket')
@@ -54,7 +54,7 @@ def delete_bucket():
         MinioHelper.client.remove_object(bucket_name, item.object_name)
     return jsonify({'status': 'OK'})    
 
-@app.route('/backend/delete', methods=["DELETE"])
+@app.route('/backend/delete', methods=["POST"])
 def delete_object():   
     task = json.loads(json.dumps(request.json))
     object_name = task.get('name')
