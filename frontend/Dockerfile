@@ -22,6 +22,8 @@ RUN yarn build
 FROM nginx:alpine
 
 COPY --from=builder /app/dist /usr/share/nginx/html/dist
+RUN rm /etc/nginx/conf.d/default.conf
+
 COPY  ./frontend/default.conf /etc/nginx/conf.d
 
 # EXPOSE 8080 80
