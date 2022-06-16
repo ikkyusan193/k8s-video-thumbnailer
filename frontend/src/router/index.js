@@ -31,6 +31,6 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({ mode: "history", routes: routes });
+const router = new VueRouter({ mode: "history", routes: routes, base: "/frontend" });
 
 export default router;
