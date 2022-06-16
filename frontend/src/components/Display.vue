@@ -57,7 +57,7 @@ export default {
     },
     deleteAllGif(){
       const data = { "bucket" : 'gifs'};
-      Vue.axios.post('/backend/delete-all', data)
+      Vue.axios.post('/backend/delete-bucket', data)
     }
   },
 
