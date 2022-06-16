@@ -1,5 +1,9 @@
 <template>
-  <v-row  class="mb-6">
+<v-col justify ="space-evenly">
+      <v-btn text outlined color="red" @click="deleteAllGif()"> <!-- todo -->
+      Delete All
+    </v-btn>
+    <v-row  class="mb-6">
     <v-col
       v-for="item in info"
       :key="item.name"
@@ -9,12 +13,12 @@
      <v-card flat tile justify="center" class="pa-3">
       <v-img
         :src="item.link"
-        aspect-ratio="2"
         class="grey lighten-2"
+        @click="deleteGif(item.name)"
       >
       </v-img>
         <span align-items:center >{{item.name}}</span>
-          </v-card>
+      </v-card>
         <template v-slot:placeholder>
           <v-row
             class="fill-height ma-0"
@@ -22,9 +26,10 @@
           >
           </v-row>
         </template>
-      
     </v-col>
   </v-row>
+</v-col>
+
 </template>
 
 
@@ -35,7 +40,7 @@ export default {
   name: "Display",
   data() {
     return {
-      info: []
+      info: [],
     };
   },
 
@@ -46,6 +51,14 @@ export default {
   },
 
   methods: {
+    deleteGif(name){
+      const data = { "bucket" : 'gifs', "name" : name};
+      Vue.axios.delete('/backend/delete', data)
+    },
+    deleteAllGif(){
+      const data = { "bucket" : 'gifs'};
+      Vue.axios.delete('/backend/delete-all', data)
+    }
   },
 
   mounted() {
