@@ -1,10 +1,11 @@
 module.exports = {
-  publicPath: '/frontend', 
+  publicPath: process.env.APP_BASEPATH, 
   transpileDependencies: ["vuetify"],
   devServer: {
     host: "localhost",
     disableHostCheck: true,
-    port: 80,
+     port: 80,
+    //port: 8080,
     https: false,
     proxy: {
       "/backend": {
