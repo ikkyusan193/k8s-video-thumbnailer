@@ -58,7 +58,7 @@ jobs:
     - name: Build the Docker image
 
       run: |
-        docker build . --file frontend/Dockerfile --build_arg APP_BASEPATH="/frontend" \
+        docker build . --file frontend/Dockerfile --build-arg APP_BASEPATH="/frontend" \
         --tag ghcr.io/${{ env.BASE_IMG_NAME }}/frontend:${{ steps.vars.outputs.sha_short }} \
         --tag ghcr.io/${{ env.BASE_IMG_NAME }}/frontend:latest
     - name: Publish the images
