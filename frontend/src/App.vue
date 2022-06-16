@@ -44,7 +44,6 @@ export default {
      ],
     searchInput: "",
     scrolled: false,
-    info: {}
   }),
 
   created() {

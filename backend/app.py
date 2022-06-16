@@ -32,7 +32,7 @@ def submit_job():
     RedisHelper.LOG_QUEUE.enqueue(initialize_job, id, input) # Create job status in REDIS
     return jsonify({'status': 'OK', 'id': id})
 
-@app.route('/backend/bucket/', methods=["POST"])
+@app.route('/backend/submit-bucket', methods=["POST"])
 # backend that, given a bucket, creates multiple jobs for all videos in the bucket and submits them to the queue
 def submit_bucket():
     task = json.loads(json.dumps(request.json))

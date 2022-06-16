@@ -6,7 +6,7 @@
     <v-col>
     <h1>Controllers</h1>
    <v-row align="center">
-    <v-btn text color="green"> <!-- todo -->
+    <v-btn text color="green" @click="submit_all()"> <!-- todo -->
       Submit all
     </v-btn>
     <v-btn text color="primary"> <!-- additional features -->
@@ -29,6 +29,7 @@
         <v-list-item
           v-for="(item, i) in videos"
           :key="i"
+          @click="submit(i)"
         >
           <v-list-item-content>
             <v-list-item-title v-text="item.name"></v-list-item-title>
@@ -91,6 +92,16 @@ export default {
   },
 
   methods: {
+    submit(index){
+      const data = { "input" : this.videos[index].name};
+      Vue.axios.post("/backend/submit", data)
+    },
+
+    submit_all(){
+      const data = { "bucket" : 'videos'};
+      Vue.axios.post("/backend/submit-bucket",data)
+    }
+
   },
 
   mounted() {
