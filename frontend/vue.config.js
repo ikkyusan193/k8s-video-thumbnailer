@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: '/frontend', 
   transpileDependencies: ["vuetify"],
   devServer: {
     host: "localhost",
