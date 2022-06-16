@@ -27,25 +27,25 @@ docker run -v /path/to/video/:/path/to/working_dir <container-name> <inputFile> 
 
 #### Retrieved video list from MinIO
 
-```http
+```
   GET /backend/videos
 ```
 
 #### List all gifs
 
-```http
+```
   GET /backend/all
 ```
 
 #### Retrieved all the job progress
 
-```http
+```
   GET /backend/jobs
 ```
 
 #### Creates multiple jobs for all videos in the bucket and submits them to the queue
 
-```http
+```
   GET /backend/submit-bucket/${name}
 ```
 
@@ -55,7 +55,7 @@ docker run -v /path/to/video/:/path/to/working_dir <container-name> <inputFile> 
 
 #### Submit a task
 
-```http
+```
   POST /backend/submit/${name}
 ```
 
