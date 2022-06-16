@@ -6,8 +6,8 @@ module.exports = {
     https: false,
     proxy: {
       "/backend": {
-        // target: "http://0.0.0.0.0:5000",
-        target: "http://localhost:80"
+        target: "http://0.0.0.0.0:5000",
+        // target: "http://localhost:80"
       },
     },
   },
